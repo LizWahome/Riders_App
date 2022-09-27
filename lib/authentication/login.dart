@@ -85,35 +85,35 @@ class _LoginScreenState extends State<LoginScreen> {
         .doc(currentUser.uid)
         .get();
     log('OUR DATA: $data');
-    // await FirebaseFirestore.instance
-    //     .collection("riders")
-    //     .doc(currentUser.uid)
-    //     .get()
-    //     .then((snapshot) async {
-    //   if (snapshot != null || snapshot.exists) {
-    //     await sharedPreferences!.setString("uid", snapshot.data()!["riderUid"]);
-    //     await sharedPreferences!
-    //         .setString("name", snapshot.data()!["riderName"]);
-    //     await sharedPreferences!
-    //         .setString("email", snapshot.data()!["riderEmail"]);
-    //     await sharedPreferences!
-    //         .setString("photoUrl", snapshot.data()!["riderAvatarUrl"]);
+    await FirebaseFirestore.instance
+        .collection("riders")
+        .doc(currentUser.uid)
+        .get()
+        .then((snapshot) async {
+      if (snapshot.exists) {
+        await sharedPreferences!.setString("uid", snapshot.data()!["riderUID"]);
+        await sharedPreferences!
+            .setString("name", snapshot.data()!["riderName"]);
+        await sharedPreferences!
+            .setString("email", snapshot.data()!["riderEmail"]);
+        await sharedPreferences!
+            .setString("photoUrl", snapshot.data()!["riderAvatarUrl"]);
 
-    //     Navigator.push(context,
-    //         MaterialPageRoute(builder: (context) => const HomeScreen()));
-    //   } else {
-    //     firebaseAuth.signOut();
-    //     Navigator.push(
-    //         context, MaterialPageRoute(builder: (context) => const AuthScreen()));
-    //         showDialog(
-    //       context: context,
-    //       builder: (context) {
-    //         return const ErrorDialog(
-    //           message: "Record doesn't exist, Try Singing Up"
-    //         );
-    //       });
-    //   }
-    // });
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
+      } else {
+        firebaseAuth.signOut();
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const AuthScreen()));
+            showDialog(
+          context: context,
+          builder: (context) {
+            return const ErrorDialog(
+              message: "Record doesn't exist, Try Singing Up"
+            );
+          });
+      }
+    });
   }
 
   @override
