@@ -70,11 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (currentUser != null) {
       log('proceeding to read data and set data to locally');
-      await readDataAndSetDataLocally(currentUser!).then((value) {
-        Navigator.pop(context);
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
-      });
+      await readDataAndSetDataLocally(currentUser!);
     }
   }
 
@@ -103,15 +99,14 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else {
         firebaseAuth.signOut();
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const AuthScreen()));
-            showDialog(
-          context: context,
-          builder: (context) {
-            return const ErrorDialog(
-              message: "Record doesn't exist, Try Singing Up"
-            );
-          });
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AuthScreen()));
+        showDialog(
+            context: context,
+            builder: (context) {
+              return const ErrorDialog(
+                  message: "Record doesn't exist, Try Singing Up");
+            });
       }
     });
   }
